@@ -28,7 +28,7 @@
         <label><input type="text" name="descriptions" size="50" value="${meal.description}"/></label></dl>
     <dl>
         <dt>Calories:</dt>
-        <label><input type="text" name="calories" size="30" value="${meal.calories}"/></label></dl>
+        <label><input type="number" name="calories" size="30" value="${meal.calories}"/></label></dl>
     <button type="submit">Save</button>
     <button type="reset" onclick="window.history.back()">Cancel</button>
 </form>
