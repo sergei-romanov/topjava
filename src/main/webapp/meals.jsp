@@ -32,7 +32,7 @@
 <h3><a href="index.html">Home</a></h3>
 <h3><a href="users.jsp">Users</a></h3>
 <h2>Meals</h2>
-<h3><a href="meals?action=create">Add Meal</a></h3>
+<h4><a href="meals?action=create">Add Meal</a></h4>
 <br><br>
 <table>
     <tr>
