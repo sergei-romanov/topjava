@@ -2,7 +2,7 @@ package ru.javawebinar.topjava.web;
 
 import org.slf4j.Logger;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.repository.MealMemoryRepository;
+import ru.javawebinar.topjava.repository.MemoryMealRepository;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
 
@@ -28,14 +28,13 @@ public class MealServlet extends HttpServlet {
 
     private static final String CREATE = "create";
 
-
     private static final Logger log = getLogger(MealServlet.class);
     private MealRepository mealRepository;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        mealRepository = new MealMemoryRepository();
+        mealRepository = new MemoryMealRepository();
     }
 
     @Override

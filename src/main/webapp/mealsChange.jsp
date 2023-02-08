@@ -1,8 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="meal" scope="request" type="ru.javawebinar.topjava.model.Meal"/>
 <html lang="ru">
 <head>
-    <title>Add Meal</title>
+    <c:if test="${meal.id == null}"><title>Add Meal</title></c:if>
+    <c:if test="${meal.id != null}"><title> Edit meal</title></c:if>
     <style>
         dl {
             padding: 1px;
@@ -18,7 +20,6 @@
 <h3><a href="index.html">Home</a></h3>
 <hr>
 <h2>Add meal</h2>
-<jsp:useBean id="meal" scope="request" type="ru.javawebinar.topjava.model.Meal"/>
 <form method="post" action="meals">
     <input type="hidden" name="id" value="${meal.id}">
     <dl>

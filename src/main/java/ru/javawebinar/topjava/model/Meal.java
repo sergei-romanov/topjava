@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Meal {
-    private final Integer id;
+    private Integer id;
 
     private final LocalDateTime dateTime;
 
@@ -42,5 +42,9 @@ public class Meal {
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
