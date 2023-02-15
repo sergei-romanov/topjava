@@ -12,6 +12,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
+import static ru.javawebinar.topjava.util.DateTimeUtil.isBetweenHalfOpen;
 import static ru.javawebinar.topjava.util.MealsUtil.getFilteredTos;
 import static ru.javawebinar.topjava.util.MealsUtil.getTos;
 import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
@@ -29,13 +30,14 @@ public class MealRestController {
     }
 
     public List<MealTo> getAll() {
-        log.debug("getAll");
-        return getTos(service.getAll(authUserId()), authUserCaloriesPerDay());
+        log.debug("get all");
+        return getTos(service.getAll(authUserId(), meal -> true), authUserCaloriesPerDay());
     }
 
     public List<MealTo> getFilterList(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
-        log.debug("getAll");
-        return getFilteredTos(service.getFilterList(authUserId(), startDate, endDate), authUserCaloriesPerDay(), startTime, endTime);
+        log.debug("get filter list");
+        return getFilteredTos(service.getAll(authUserId(), meal -> isBetweenHalfOpen(meal.getDate(), startDate, endDate.plusDays(1))),
+                authUserCaloriesPerDay(), startTime, endTime);
     }
 
     public Meal get(int id) {

@@ -26,6 +26,11 @@ public class MealsUtil {
             new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 500),
             new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410)
     );
+    public static final List<Meal> mealsTwoUser = Arrays.asList(
+            new Meal(LocalDateTime.of(2021, Month.JANUARY, 30, 10, 0), "Завтрак", 500),
+            new Meal(LocalDateTime.of(2021, Month.JANUARY, 30, 13, 0), "Обед", 1000),
+            new Meal(LocalDateTime.of(2021, Month.JANUARY, 30, 20, 0), "Ужин", 500)
+    );
 
     public static void main(String[] args) {
         getFilteredTos(meals, 2000, LocalTime.of(7, 0), LocalTime.of(10, 0)).forEach(System.out::println);

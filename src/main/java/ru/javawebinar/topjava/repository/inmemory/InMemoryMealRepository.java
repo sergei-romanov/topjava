@@ -5,17 +5,16 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.MealsUtil;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static ru.javawebinar.topjava.repository.inmemory.InMemoryUserRepository.USER_ID;
-import static ru.javawebinar.topjava.util.DateTimeUtil.isBetweenHalfOpen;
+import static ru.javawebinar.topjava.repository.inmemory.InMemoryUserRepository.*;
 
 @Repository
 public class InMemoryMealRepository implements MealRepository {
@@ -25,6 +24,7 @@ public class InMemoryMealRepository implements MealRepository {
 
     {
         MealsUtil.meals.forEach(meal -> save(USER_ID, meal));
+        MealsUtil.mealsTwoUser.forEach(meal -> save(USER_ID_2, meal));
     }
 
     @Override
@@ -51,19 +51,11 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
-    public List<Meal> getAll(int userId) {
+    public List<Meal> getAll(int userId, Predicate<Meal> filter) {
         Map<Integer, Meal> meals = repository.get(userId);
         return meals == null ? Collections.emptyList() : meals.values().stream()
                 .sorted(Comparator.comparing(Meal::getDateTime).reversed())
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Meal> getFilterList(int userId, LocalDate startDate, LocalDate endDate) {
-        Map<Integer, Meal> meals = repository.get(userId);
-        return meals == null ? Collections.emptyList() : meals.values().stream()
-                .filter(meal -> isBetweenHalfOpen(meal.getDate(), startDate, endDate.plusDays(1)))
-                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
+                .filter(filter)
                 .collect(Collectors.toList());
     }
 }
