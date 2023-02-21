@@ -32,10 +32,6 @@ public class MealsUtil {
             new Meal(LocalDateTime.of(2021, Month.JANUARY, 30, 20, 0), "Ужин", 500)
     );
 
-    public static void main(String[] args) {
-        getFilteredTos(meals, 2000, LocalTime.of(7, 0), LocalTime.of(10, 0)).forEach(System.out::println);
-    }
-
     public static List<MealTo> getTos(Collection<Meal> meals, int caloriesPerDay) {
         return filterByPredicate(meals, caloriesPerDay, meal -> true);
     }

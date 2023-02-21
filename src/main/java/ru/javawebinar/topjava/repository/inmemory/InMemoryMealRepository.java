@@ -54,8 +54,8 @@ public class InMemoryMealRepository implements MealRepository {
     public List<Meal> getAll(int userId, Predicate<Meal> filter) {
         Map<Integer, Meal> meals = repository.get(userId);
         return meals == null ? Collections.emptyList() : meals.values().stream()
-                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .filter(filter)
+                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .collect(Collectors.toList());
     }
 }
