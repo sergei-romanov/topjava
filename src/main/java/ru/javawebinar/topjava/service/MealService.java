@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.service;
 
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
@@ -36,9 +37,10 @@ public class MealService {
         return repository.getAll(userid, filter);
     }
 
-    public List<Meal> getFilterList(int userId, LocalDate startDate, LocalDate endDate) {
-        return repository.getAll(userId, meal ->
-                isBetweenHalfOpen(meal.getDate(), startDate, endDate.plusDays(1)));
+    public List<Meal> getFilterList(int userId, @Nullable LocalDate startDate, @Nullable LocalDate endDate) {
+        return repository.getAll(userId, meal -> isBetweenHalfOpen(meal.getDate(),
+                startDate != null ? startDate : LocalDate.MIN,
+                endDate != null ? endDate.plusDays(1) : LocalDate.MAX));
     }
 
     public Meal update(Meal meal, int userId) {
