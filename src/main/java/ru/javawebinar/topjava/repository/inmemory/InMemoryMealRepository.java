@@ -14,7 +14,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static ru.javawebinar.topjava.repository.inmemory.InMemoryUserRepository.*;
+import static ru.javawebinar.topjava.repository.inmemory.InMemoryUserRepository.USER_ID;
+import static ru.javawebinar.topjava.repository.inmemory.InMemoryUserRepository.USER_ID_2;
 
 @Repository
 public class InMemoryMealRepository implements MealRepository {
@@ -45,13 +46,22 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
-    public Meal get(int userId, int id) {
+    public Meal get(int id, int userId) {
         Map<Integer, Meal> meals = repository.get(userId);
         return meals == null ? null : meals.get(id);
     }
 
     @Override
+    public List<Meal> getAll(int userId) {
+        return getFilterList(userId, meal -> true);
+    }
+
+    @Override
     public List<Meal> getAll(int userId, Predicate<Meal> filter) {
+        return getFilterList(userId, filter);
+    }
+
+    private List<Meal> getFilterList(int userId, Predicate<Meal> filter) {
         Map<Integer, Meal> meals = repository.get(userId);
         return meals == null ? Collections.emptyList() : meals.values().stream()
                 .filter(filter)

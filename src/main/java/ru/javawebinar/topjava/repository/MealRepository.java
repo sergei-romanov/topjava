@@ -13,8 +13,10 @@ public interface MealRepository {
     boolean delete(int userId, int id);
 
     // null if meal does not belong to userId
-    Meal get(int userId, int id);
+    Meal get(int id,int userId);
 
     // ORDERED dateTime desc
+    List<Meal> getAll(int userId);
+
     List<Meal> getAll(int userId, Predicate<Meal> filter);
 }

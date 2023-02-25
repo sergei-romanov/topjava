@@ -47,8 +47,6 @@ public class MealServlet extends HttpServlet {
                 LocalDateTime.parse(request.getParameter("dateTime")),
                 request.getParameter("description"),
                 Integer.parseInt(request.getParameter("calories")));
-
-        log.info(meal.isNew() ? "Create {}" : "Update {}", meal);
         if (meal.isNew()) {
             mealRestController.create(meal);
         } else {
@@ -64,26 +62,27 @@ public class MealServlet extends HttpServlet {
         switch (action == null ? "all" : action) {
             case "delete":
                 int id = getId(request);
-                log.info("Delete id={}", id);
                 mealRestController.delete(id);
                 response.sendRedirect("meals");
                 break;
             case "create":
             case "update":
-                final Meal meal = "create".equals(action) ?
-                        new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
+                final Meal meal = "create".equals(action) ? new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
                         mealRestController.get(getId(request));
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("/mealForm.jsp").forward(request, response);
                 break;
-            case "all":
-            default:
-                log.info("getAll");
+            case "filter":
                 LocalDate startDate = parseLocalDate(request.getParameter("startDate"));
                 LocalDate endDate = parseLocalDate(request.getParameter("endDate"));
                 LocalTime startTime = parseLocalTime(request.getParameter("startTime"));
                 LocalTime endTime = parseLocalTime(request.getParameter("endTime"));
                 request.setAttribute("meals", mealRestController.getFilterList(startDate, startTime, endDate, endTime));
+                request.getRequestDispatcher("/meals.jsp").forward(request, response);
+                break;
+            case "all":
+            default:
+                request.setAttribute("meals", mealRestController.getAll());
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
         }
