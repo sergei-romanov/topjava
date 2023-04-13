@@ -1,4 +1,4 @@
-https://app.codacy.com/gh/sergei-romanov/topjava/settings
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/2007fd663d55460081565e768f1a5165)](https://app.codacy.com/gh/sergei-romanov/topjava/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 Java Enterprise Online Project 
 ===============================
