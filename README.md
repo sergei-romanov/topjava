@@ -2,6 +2,9 @@ https://app.codacy.com/gh/sergei-romanov/topjava/settings
 
 Java Enterprise Online Project 
 ===============================
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e2fc4bed301943eea612ff3dfa57a6b4)](https://app.codacy.com/gh/sergei-romanov/topjava?utm_source=github.com&utm_medium=referral&utm_content=sergei-romanov/topjava&utm_campaign=Badge_Grade)
+
 Разработка полнофункционального Spring/JPA Enterprise приложения c авторизацией и правами доступа на основе ролей с использованием наиболее популярных инструментов и технологий Java: Maven, Spring MVC, Security, JPA(Hibernate), REST(Jackson), Bootstrap (css,js), DataTables, jQuery + plugins, Java 8 Stream and Time API и хранением в базах данных Postgresql и HSQLDB.
 
 ![topjava_structure](https://javaops.ru/static/images/projects/top-scheme.jpg)
