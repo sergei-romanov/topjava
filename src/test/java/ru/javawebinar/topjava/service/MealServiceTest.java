@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.MealTestData.*;
+import static ru.javawebinar.topjava.UserTestData.NOT_FOUND;
 import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
 @ContextConfiguration({
@@ -54,6 +56,11 @@ public class MealServiceTest {
     }
 
     @Test
+    public void getBetweenInclusiveNullFilter() {
+        assertMatch(service.getBetweenInclusive(null, null, USER_ID), meal7, meal6, meal5, meal4, meal3, meal2, meal1);
+    }
+
+    @Test
     public void getAll() {
         List<Meal> all = service.getAll(USER_ID);
         MealTestData.assertMatch(all, meal7, meal6, meal5, meal4, meal3, meal2, meal1);
@@ -61,12 +68,9 @@ public class MealServiceTest {
 
     @Test
     public void update() {
-        Meal meal = service.get(MEAL_ID, USER_ID);
-        meal.setCalories(700);
-        meal.setDateTime(meal1.getDateTime().plusHours(2));
-        meal.setDescription("Завтрак update");
-        service.update(meal, USER_ID);
-        assertMatch(service.get(MEAL_ID, USER_ID), MealTestData.getUpdated());
+        Meal update = getUpdated();
+        service.update(update, USER_ID);
+        assertMatch(service.get(update.getId(), USER_ID), getUpdated());
     }
 
     @Test
@@ -77,5 +81,53 @@ public class MealServiceTest {
         newMeal.setId(newId);
         assertMatch(created, newMeal);
         assertMatch(service.get(newId, USER_ID), newMeal);
+    }
+
+    @Test
+    public void duplicateDateMealCreated() {
+        assertThrows(DataAccessException.class, () ->
+                service.create(new Meal(meal1.getDateTime(), "duplicate", 100), USER_ID));
+    }
+
+    @Test
+    public void updateNotFound() {
+        Meal updated = getUpdated();
+        assertThrows(NotFoundException.class, () -> service.update(updated, NOT_FOUND));
+    }
+
+    @Test
+    public void updateOtherUserMealNotFound() {
+        Meal updated = new Meal(adminMeal);
+        assertThrows(NotFoundException.class, () -> service.update(updated, USER_ID));
+    }
+
+    @Test
+    public void getMealNotFound() {
+        assertThrows(NotFoundException.class, () -> service.get(MEAL_NOT_FOUND, USER_ID));
+    }
+
+    @Test
+    public void getOtherUserMealNotFound() {
+        assertThrows(NotFoundException.class, () -> service.get(ADMIN_MEAL_ID, USER_ID));
+    }
+
+    @Test
+    public void deletedMealNotFound() {
+        assertThrows(NotFoundException.class, () -> service.delete(MEAL_NOT_FOUND, USER_ID));
+    }
+
+    @Test
+    public void deletedOtherUserMealNotFound() {
+        assertThrows(NotFoundException.class, () -> service.delete(ADMIN_MEAL_ID, USER_ID));
+    }
+
+    @Test
+    public void getUserNotFound() {
+        assertThrows(NotFoundException.class, () -> service.get(meal2.getId(), NOT_FOUND));
+    }
+
+    @Test
+    public void deletedUserNotFound() {
+        assertThrows(NotFoundException.class, () -> service.delete(meal2.getId(), NOT_FOUND));
     }
 }
