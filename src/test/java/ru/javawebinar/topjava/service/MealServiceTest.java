@@ -41,7 +41,7 @@ public class MealServiceTest {
     public Stopwatch stopwatch = new Stopwatch() {
         @Override
         protected void finished(long nanos, Description description) {
-            String message = String.format("%s time %s ms", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
+            String message = String.format("%-30s %5d ms", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
             logger.info(message);
             timeStatistic.append(message).append("\n");
         }
