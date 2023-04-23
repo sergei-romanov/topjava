@@ -43,7 +43,7 @@ public class MealServiceTest {
         protected void finished(long nanos, Description description) {
             String message = String.format("%-30s %5d ms", description.getMethodName(), TimeUnit.NANOSECONDS.toMillis(nanos));
             logger.info(message);
-            timeStatistic.append(message).append("\n");
+            timeStatistic.append("\n").append(message);
         }
     };
 
