@@ -19,7 +19,7 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "meal", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "date_time"}))
 public class Meal extends AbstractBaseEntity {
-    public static final String GET = "Meal.get";
+
     public static final String DELETE = "Meal.delete";
     public static final String ALL = "Meal.getAllSorted";
     public static final String FILTERED = "Meal.getBetweenHalfOpen";
